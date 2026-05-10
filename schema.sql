@@ -12,6 +12,12 @@ CREATE TABLE IF NOT EXISTS setter (
     email TEXT UNIQUE NOT NULL COLLATE NOCASE,
     added_by INTEGER NOT NULL,
     added_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    slug TEXT UNIQUE,
+    name TEXT,
+    contact TEXT,
+    profile TEXT,
+    socials TEXT,
+    description TEXT,
     FOREIGN KEY (added_by) REFERENCES user(id) ON DELETE CASCADE
 );
 

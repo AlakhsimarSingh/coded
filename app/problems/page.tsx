@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { DataTable, ColumnDef } from "@/app/components/DataTable";
 import { Check, X, Clock } from "lucide-react";
 import { formatLocalDateTime } from "@/lib/datetime";
@@ -11,6 +12,7 @@ type Problem = {
   title: string;
   slug: string;
   setter_name: string;
+  setter_slug: string | null;
   deadline_at: string | null;
   time_limit_ms: number;
   memory_limit_kb: number;
@@ -113,6 +115,20 @@ export default function ProblemsPage() {
       key: "setter_name",
       header: "Setter",
       cellClassName: "text-muted-foreground",
+      render: (problem) => {
+        if (problem.setter_slug) {
+          return (
+            <Link 
+              href={`/profile/${problem.setter_slug}`}
+              className="hover:underline"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {problem.setter_name}
+            </Link>
+          );
+        }
+        return problem.setter_name;
+      }
     },
     {
       key: "deadline_at",

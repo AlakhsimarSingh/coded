@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
@@ -14,6 +15,7 @@ type Problem = {
   title: string;
   statement: string;
   setter_name: string;
+  setter_slug: string | null;
   time_limit_ms: number;
   memory_limit_kb: number;
   deadline_at: string | null;
@@ -215,7 +217,19 @@ export default function SubmitProblemPage() {
       <div className="space-y-2">
         <Label className="text-lg">{problem.title}</Label>
         <p className="text-xs text-muted-foreground">
-          {problem.setter_name ? (<>Set by <b>{problem.setter_name}</b> • </>) : null}
+          {problem.setter_name ? (
+            <>
+              Set by{" "}
+              {problem.setter_slug ? (
+                <Link href={`/profile/${problem.setter_slug}`} className="font-bold hover:underline">
+                  {problem.setter_name}
+                </Link>
+              ) : (
+                <b>{problem.setter_name}</b>
+              )}{" "}
+              •{" "}
+            </>
+          ) : null}
           {problem.time_limit_ms} ms • {Math.floor(problem.memory_limit_kb / 1024)} MB
           {problem.deadline_at ? (
             <> • Deadline: {formatLocalDateTime(problem.deadline_at)}</>

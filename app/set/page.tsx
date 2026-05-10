@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
+import { MarkdownEditor } from "@/app/components/MarkdownEditor";
 import { MAX_TITLE_LENGTH, MAX_STATEMENT_LENGTH, MAX_TESTCASE_INPUT_LENGTH, MAX_TESTCASE_OUTPUT_LENGTH, MAX_TESTCASES, MIN_TIME_LIMIT, MAX_TIME_LIMIT, MIN_MEMORY_LIMIT, MAX_MEMORY_LIMIT, MIN_WEIGHT, MAX_WEIGHT, DEFAULT_TIME_LIMIT_MS, DEFAULT_MEMORY_LIMIT_KB } from "@/lib/constants/problem";
 
 type Testcase = {
@@ -316,17 +317,12 @@ export default function AddProblemPage() {
 
       <div className="space-y-2">
         <Label htmlFor="statement-input">Problem Statement</Label>
-        <Textarea
-          id="statement-input"
-          className="min-h-lg"
+        <MarkdownEditor
           value={statement}
-          onChange={(e) => {
-            setStatement(e.target.value);
+          onChange={(val) => {
+            setStatement(val);
             setValidationError(null);
           }}
-          maxLength={MAX_STATEMENT_LENGTH}
-          disabled={submitting}
-          placeholder="Describe the problem in detail, including input/output format."
         />
         <p className="text-xs text-muted-foreground">
           {formatNumbers(statement.length)}/{formatNumbers(MAX_STATEMENT_LENGTH)} characters

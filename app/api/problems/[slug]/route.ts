@@ -14,6 +14,7 @@ interface ProblemRow {
     memory_limit_kb: number;
     created_at: string;
     setter_name: string | null;
+    setter_slug: string | null;
     deadline_at: string | null;
     visibility: string;
     setter_id: number;
@@ -169,9 +170,11 @@ export async function GET(
                             p.deadline_at,
                             p.visibility,
                             p.setter_id,
-                            u.name as setter_name
+                            u.name as setter_name,
+                            st.slug as setter_slug
                         FROM problem p
                         LEFT JOIN user u ON p.setter_id = u.id
+                        LEFT JOIN setter st ON st.email = u.email
                         WHERE p.slug = ?
                         `,
                         [slug],

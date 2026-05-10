@@ -44,9 +44,18 @@ export function NavigationBar() {
                         <div className="h-4 w-8 bg-muted animate-pulse rounded" />
                     ) : user ? (
                         <div className="flex items-center gap-4">
-                            <span className="text-sm text-muted-foreground hidden sm:block">
-                                {user.name}
-                            </span>
+                            {user.slug ? (
+                                <Link 
+                                    href={`/profile/${user.slug}`} 
+                                    className="text-sm text-muted-foreground hover:underline hidden sm:block"
+                                >
+                                    {user.name}
+                                </Link>
+                            ) : (
+                                <span className="text-sm text-muted-foreground hidden sm:block">
+                                    {user.name}
+                                </span>
+                            )}
                             <Button variant="default" size="sm" onClick={logout}>
                                 Sign out
                             </Button>

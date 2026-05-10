@@ -20,6 +20,8 @@ build judge-python docker/python
 if [ ! -f database.db ]; then
   echo "Initializing database..."
   sqlite3 database.db < schema.sql
+  echo "Running seed script..."
+  npx tsx seed.ts
 else
   echo "Database already exists. Skipping initialization."
 fi

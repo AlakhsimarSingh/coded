@@ -7,6 +7,7 @@ export type CurrentUser = {
     name: string;
     email: string;
     role: string;
+    slug?: string | null;
 };
 
 export function useCurrentUser() {

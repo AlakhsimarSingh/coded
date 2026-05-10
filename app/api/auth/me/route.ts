@@ -10,6 +10,7 @@ interface UserRow {
     name: string;
     email: string;
     role: string;
+    slug: string | null;
 }
 
 export async function GET(): Promise<Response> {
@@ -38,7 +39,7 @@ export async function GET(): Promise<Response> {
             }
 
             db.get(
-                "SELECT id, name, email, role FROM user WHERE id = ?",
+                "SELECT u.id, u.name, u.email, u.role, s.slug FROM user u LEFT JOIN setter s ON u.email = s.email WHERE u.id = ?",
                 [session.userId],
                 (err, user: UserRow) => {
                     db.close();

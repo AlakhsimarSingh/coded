@@ -11,6 +11,7 @@ interface ProblemRow {
     slug: string;
     setter_id: number;
     setter_name: string;
+    setter_slug: string | null;
     deadline_at: string | null;
     time_limit_ms: number;
     memory_limit_kb: number;
@@ -109,6 +110,7 @@ export async function GET(req: NextRequest) {
                                 p.slug,
                                 p.setter_id,
                                 u.name AS setter_name,
+                                st.slug AS setter_slug,
                                 p.deadline_at,
                                 p.time_limit_ms,
                                 p.memory_limit_kb,
@@ -118,6 +120,7 @@ export async function GET(req: NextRequest) {
                                 latest_sub.status AS latest_status
                             FROM problem p
                             JOIN user u ON p.setter_id = u.id
+                            LEFT JOIN setter st ON st.email = u.email
                             LEFT JOIN (
                                 SELECT 
                                     s1.problem_id,
@@ -150,6 +153,7 @@ export async function GET(req: NextRequest) {
                                 p.slug,
                                 p.setter_id,
                                 u.name AS setter_name,
+                                st.slug AS setter_slug,
                                 p.deadline_at,
                                 p.time_limit_ms,
                                 p.memory_limit_kb,
@@ -159,6 +163,7 @@ export async function GET(req: NextRequest) {
                                 latest_sub.status AS latest_status
                             FROM problem p
                             JOIN user u ON p.setter_id = u.id
+                            LEFT JOIN setter st ON st.email = u.email
                             LEFT JOIN solver s ON p.id = s.problem_id
                             LEFT JOIN (
                                 SELECT 
